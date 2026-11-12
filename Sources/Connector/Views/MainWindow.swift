@@ -36,7 +36,7 @@ struct MainWindow: View {
                     LogButton(active: model.busy, enabled: !model.log.isEmpty) { ui.showingLog.toggle() }
                 }
                 DropZone(model: model)
-                if let progress = model.progress { ProgressPanel(progress: progress) }
+                if let progress = model.progress { ProgressPanel(progress: progress, queued: model.queued) }
                 if model.device != nil {
                     HStack {
                         Text("\(model.albums.count) \(model.albums.count == 1 ? "album" : "albums") · \(model.tracks.count) \(model.tracks.count == 1 ? "song" : "songs")")
