@@ -26,6 +26,7 @@ private struct TitleBar: View {
             Stripes(horizontal: true).padding(.vertical, 3)
             Text(title)
                 .font(S7.title(12))
+                .foregroundStyle(S7.ink)
                 .padding(.horizontal, 8)
                 .background(S7.paper)
             HStack {
