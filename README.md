@@ -88,7 +88,9 @@ The font is not bundled because its license has not been verified. If you bundle
 
 ## Support
 
-Connector is free and open source. If it saved you from a heavy music app and you'd like to say thanks, you can [buy me a coffee](https://buymeacoffee.com/level5). It is entirely optional.
+Connector is free and open source. If it saved you from a heavy music app and you'd like to say thanks, you can buy me a coffee. It is entirely optional.
+
+<a href="https://www.buymeacoffee.com/Level5"><img src="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=&slug=Level5&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" alt="Buy me a coffee" height="50"></a>
 
 ## Contributing
 
