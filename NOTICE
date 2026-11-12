@@ -1,0 +1,13 @@
+Connector
+Copyright (c) 2026 NicolasTobias, released under the GNU General Public License v3.0 (see LICENSE).
+
+Third-party components
+
+This software includes a port of itdb_hash58.c from libgpod, distributed under
+the 3-clause BSD license. Its copyright notice and license are in
+LICENSES/libgpod-hash58-BSD.txt and in the header of
+Sources/ConnectorCore/IPodDB/Hash58.swift, and are preserved unchanged.
+
+The iPod database format was learned from libgpod
+(https://github.com/gtkpod/libgpod), which was used only as a reference to
+read; no libgpod code other than the hash58 port above is included.

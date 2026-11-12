@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Versión de Swift
+        run: swift --version
+      - name: Tests
+        run: swift run connector-tests
+      - name: Empaquetado de prueba
+        run: |
+          scripts/build-app.sh
+          scripts/make-dmg.sh
+          hdiutil verify dist/Connector-*.dmg

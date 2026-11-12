@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key><string>en</string>
+    <key>CFBundleLocalizations</key><array><string>en</string></array>
+    <key>CFBundleExecutable</key><string>Connector</string>
+    <key>CFBundleIconFile</key><string>Connector</string>
+    <key>CFBundleIdentifier</key><string>io.github.nicolastobias.connector</string>
+    <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
+    <key>CFBundleName</key><string>Connector</string>
+    <key>CFBundleDisplayName</key><string>Connector</string>
+    <key>CFBundlePackageType</key><string>APPL</string>
+    <key>CFBundleShortVersionString</key><string>@VERSION@</string>
+    <key>CFBundleVersion</key><string>@VERSION@</string>
+    <key>LSMinimumSystemVersion</key><string>14.0</string>
+    <key>LSApplicationCategoryType</key><string>public.app-category.music</string>
+    <key>NSPrincipalClass</key><string>NSApplication</string>
+    <key>NSHighResolutionCapable</key><true/>
+    <key>NSRemovableVolumesUsageDescription</key><string>Connector needs access to the iPod to manage its music.</string>
+    <key>NSNetworkVolumesUsageDescription</key><string>Connector reads the music files you drop, including those on a network volume.</string>
+</dict>
+</plist>
