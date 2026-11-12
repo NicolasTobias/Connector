@@ -1,1 +1,1 @@
-public let connectorVersion = "0.2.1"
+public let connectorVersion = "0.2.2"
