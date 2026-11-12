@@ -96,6 +96,6 @@ Issues and pull requests are welcome. Please run `swift run connector-tests` bef
 
 ## License and credits
 
-Connector is released under the MIT License (see `LICENSE`).
+Connector is released under the GNU General Public License v3.0 (see `LICENSE`). You are free to use, study, modify and share it, but any distributed derivative must also be GPL-3.0 with its source available.
 
 The iPod database format was learned from [libgpod](https://github.com/gtkpod/libgpod), which was used only as a reference to read. The `hash58` signature is a port of `itdb_hash58.c` (3-clause BSD); its notice is in `LICENSES/libgpod-hash58-BSD.txt` and in `Sources/ConnectorCore/IPodDB/Hash58.swift`.
