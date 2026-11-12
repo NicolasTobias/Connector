@@ -1,0 +1,67 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-15
+    env:
+      CONNECTOR_SIGN_IDENTITY: ${{ secrets.CONNECTOR_SIGN_IDENTITY }}
+      CONNECTOR_NOTARY_APPLE_ID: ${{ secrets.CONNECTOR_NOTARY_APPLE_ID }}
+      CONNECTOR_NOTARY_TEAM_ID: ${{ secrets.CONNECTOR_NOTARY_TEAM_ID }}
+      CONNECTOR_NOTARY_PASSWORD: ${{ secrets.CONNECTOR_NOTARY_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Versión de Swift
+        run: swift --version
+
+      - name: Comprobar que la etiqueta coincide con la versión
+        run: |
+          VERSION=$(grep -E 'connectorVersion' Sources/ConnectorCore/ConnectorCore.swift | sed -E 's/.*"([^"]+)".*/\1/')
+          if [ "v$VERSION" != "$GITHUB_REF_NAME" ]; then
+            echo "La etiqueta $GITHUB_REF_NAME no coincide con connectorVersion v$VERSION" >&2
+            exit 1
+          fi
+
+      - name: Tests
+        run: swift run connector-tests
+
+      - name: Importar certificado de firma
+        if: ${{ env.CONNECTOR_SIGN_IDENTITY != '' }}
+        env:
+          CONNECTOR_CERT_P12: ${{ secrets.CONNECTOR_CERT_P12 }}
+          CONNECTOR_CERT_PASSWORD: ${{ secrets.CONNECTOR_CERT_PASSWORD }}
+        run: |
+          KEYCHAIN="$RUNNER_TEMP/connector.keychain-db"
+          security create-keychain -p "$CONNECTOR_CERT_PASSWORD" "$KEYCHAIN"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN"
+          security unlock-keychain -p "$CONNECTOR_CERT_PASSWORD" "$KEYCHAIN"
+          echo "$CONNECTOR_CERT_P12" | base64 --decode > "$RUNNER_TEMP/cert.p12"
+          security import "$RUNNER_TEMP/cert.p12" -k "$KEYCHAIN" -P "$CONNECTOR_CERT_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$CONNECTOR_CERT_PASSWORD" "$KEYCHAIN"
+          security list-keychains -d user -s "$KEYCHAIN" $(security list-keychains -d user | tr -d '"')
+
+      - name: Construir app
+        run: scripts/build-app.sh
+
+      - name: Construir dmg
+        run: scripts/make-dmg.sh
+
+      - name: Verificar dmg
+        run: hdiutil verify dist/Connector-*.dmg
+
+      - name: Publicar en GitHub Releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/Connector-*.dmg --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/Connector-*.dmg --title "Connector ${GITHUB_REF_NAME#v}" --generate-notes
+          fi
